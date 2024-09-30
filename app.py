@@ -96,12 +96,3 @@ def predict():
     except Exception as e:
         return render_template('index.html', error=str(e))
 
-# Route to serve the Pandas Profiling report
-@app.route('/report')
-def report():
-    # Use os.path.join to ensure correct file path resolution
-    file_path = os.path.join(os.getcwd(), 'Analysis.html')
-    return send_file(file_path)
-
-if __name__ == '__main__':
-    app.run(debug=True)
