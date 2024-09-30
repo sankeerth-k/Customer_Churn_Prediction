@@ -1,267 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Churn Predictor - Dynamic Interface</title>
+<div class="form-section">
+    <div class="form-column">
+        <label for="MonthlyCharges">Monthly Charges:</label>
+        <input type="number" id="MonthlyCharges" name="MonthlyCharges" required step="0.01" min="0" title="Please enter a valid positive amount."><br>
 
-    <style>
-        /* Existing Color Scheme */
-        body {
-            background: linear-gradient(145deg, #f5deb3, #deb887);
-            font-family: 'Arial', sans-serif;
-            color: #2e2e2e;
-            transition: background 1s ease-in-out;
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 2.5em;
-            text-transform: uppercase;
-            color: #4b5320;
-            letter-spacing: 0.1em;
-            margin-top: 1.5em;
-        }
-
-        .container {
-            max-width: 850px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff8dc;
-            box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.1);
-            border-radius: 15px;
-            position: relative;
-            transition: transform 0.5s ease-in-out; /* 16. Container subtle scaling */
-        }
-
-        .form-section {
-            display: flex;
-            justify-content: space-between;
-            padding: 1.5em;
-        }
-
-        .form-column {
-            flex: 1;
-            padding: 1em;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5em;
-            font-weight: bold;
-            color: #4b5320;
-            transition: color 0.5s;
-        }
-
-        input[type="number"],
-        select {
-            width: 100%;
-            padding: 0.7em;
-            margin-bottom: 1.5em;
-            border: 2px solid #4b5320;
-            border-radius: 5px;
-            background-color: #fff0e5;
-            font-size: 1.1em;
-            transition: box-shadow 0.3s, background-color 0.3s ease;
-        }
-
-        input[type="number"]:focus,
-        select:focus {
-            box-shadow: 0 0 8px 2px #4b5320;
-            background-color: #e6ffe6;
-        }
-
-        button {
-            width: 100%;
-            padding: 1em;
-            font-size: 1.2em;
-            border: none;
-            background-color: #4b5320;
-            color: white;
-            cursor: pointer;
-            border-radius: 10px;
-            transition: box-shadow 0.4s ease, transform 0.3s ease;
-        }
-
-        button:hover {
-            box-shadow: 0px 0px 15px 5px #bada55;
-            transform: scale(1.05);
-        }
-
-        .container:hover {
-            transform: translateY(-5px);
-            transition: transform 0.6s ease-in-out;
-        }
-
-        .result {
-            font-size: 1.5em;
-            text-align: center;
-            margin-top: 2em;
-            color: #4b5320;
-        }
-
-        .error-msg {
-            color: red;
-            font-weight: bold;
-        }
-
-        footer p {
-            text-align: center;
-            font-size: 0.9em;
-            margin-top: 1.5em;
-            color: #4b5320;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Customer Churn Prediction</h1>
-
-        <form action="/predict" method="post" id="prediction-form">
-            <div class="form-section">
-                <div class="form-column">
-                    <label for="gender">Gender:</label>
-                    <select id="gender" name="gender" required>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </select><br>
-
-                    <label for="SeniorCitizen">Senior Citizen (1/0):</label>
-                    <input type="number" id="SeniorCitizen" name="SeniorCitizen" required min="0" max="1" step="1"><br>
-
-                    <label for="Partner">Partner (Yes/No):</label>
-                    <select id="Partner" name="Partner" required>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select><br>
-
-                    <label for="Dependents">Dependents (Yes/No):</label>
-                    <select id="Dependents" name="Dependents" required>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select><br>
-
-                    <label for="tenure">Tenure (Months):</label>
-                    <input type="number" id="tenure" name="tenure" required step="1"><br>
-
-                    <label for="PhoneService">Phone Service (Yes/No):</label>
-                    <select id="PhoneService" name="PhoneService" required>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select><br>
-
-                    <label for="MultipleLines">Multiple Lines (Yes/No/No phone service):</label>
-                    <select id="MultipleLines" name="MultipleLines" required>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                        <option value="No phone service">No phone service</option>
-                    </select><br>
-
-                    <label for="StreamingTV">Streaming TV (Yes/No/No internet service):</label>
-                    <select id="StreamingTV" name="StreamingTV" required>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                        <option value="No internet service">No internet service</option>
-                    </select><br>
-
-                    <label for="StreamingMovies">Streaming Movies (Yes/No/No internet service):</label>
-                    <select id="StreamingMovies" name="StreamingMovies" required>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                        <option value="No internet service">No internet service</option>
-                    </select><br>
-                </div>
-
-                <div class="form-column">
-                    <label for="InternetService">Internet Service:</label>
-                    <select id="InternetService" name="InternetService" required>
-                        <option value="Fiber optic">Fiber optic</option>
-                        <option value="DSL">DSL</option>
-                        <option value="No">No</option>
-                    </select><br>
-
-                    <label for="OnlineSecurity">Online Security (Yes/No/No internet service):</label>
-                    <select id="OnlineSecurity" name="OnlineSecurity" required>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                        <option value="No internet service">No internet service</option>
-                    </select><br>
-
-                    <label for="OnlineBackup">Online Backup (Yes/No/No internet service):</label>
-                    <select id="OnlineBackup" name="OnlineBackup" required>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                        <option value="No internet service">No internet service</option>
-                    </select><br>
-
-                    <label for="DeviceProtection">Device Protection (Yes/No/No internet service):</label>
-                    <select id="DeviceProtection" name="DeviceProtection" required>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                        <option value="No internet service">No internet service</option>
-                    </select><br>
-
-                    <label for="TechSupport">Tech Support (Yes/No/No internet service):</label>
-                    <select id="TechSupport" name="TechSupport" required>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                        <option value="No internet service">No internet service</option>
-                    </select><br>
-
-                    <label for="Contract">Contract:</label>
-                    <select id="Contract" name="Contract" required>
-                        <option value="Month-to-month">Month-to-month</option>
-                        <option value="One year">One year</option>
-                        <option value="Two year">Two year</option>
-                    </select><br>
-
-                    <label for="PaperlessBilling">Paperless Billing (Yes/No):</label>
-                    <select id="PaperlessBilling" name="PaperlessBilling" required>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                    </select><br>
-
-                    <label for="PaymentMethod">Payment Method:</label>
-                    <select id="PaymentMethod" name="PaymentMethod" required>
-                        <option value="Electronic check">Electronic check</option>
-                        <option value="Mailed check">Mailed check</option>
-                        <option value="Bank transfer (automatic)">Bank transfer (automatic)</option>
-                        <option value="Credit card (automatic)">Credit card (automatic)</option>
-                    </select><br>
-
-                    <label for="MonthlyCharges">Monthly Charges:</label>
-                    <input type="number" id="MonthlyCharges" name="MonthlyCharges" required step="0.01"><br>
-
-                    <label for="TotalCharges">Total Charges:</label>
-                    <input type="number" id="TotalCharges" name="TotalCharges" required step="0.01"><br>
-                </div>
-            </div>
-
-            <button type="submit">Predict Churn</button>
-
-            <div class="progress-bar" id="progress-bar"></div>
-        </form>
-
-        {% if prediction %}
-        <div class="result">
-            <h2>Prediction: {{ prediction }}</h2>
-        </div>
-        {% endif %}
-
-        {% if error %}
-        <h2 class="error-msg">Error: {{ error }}</h2>
-        {% endif %}
-
-        <footer>
-            <p>2024 &copy; Churn Predictor by YourCompany</p>
-        </footer>
+        <label for="TotalCharges">Total Charges:</label>
+        <input type="number" id="TotalCharges" name="TotalCharges" required step="0.01" min="0" title="Please enter a valid positive amount."><br>
     </div>
+</div>
 
-    <script>
-        const form = document.getElementById('prediction-form');
-        form.addEventListener('submit', function() {
-            document.getElementById('progress-bar').style.display = 'block';
-        });
-    </script>
-</body>
-</html>
+<div class="form-section">
+    <div class="form-column">
+        <button type="submit">Predict</button>
+    </div>
+</div>
+</form>
+
+<div class="result" id="prediction-result" style="display:none;"></div>
+</div>
+
+<footer>
+<p>&copy; 2024 Churn Predictor. All rights reserved.</p>
+</footer>
+
+<script>
+document.getElementById('prediction-form').addEventListener('submit', function(event) {
+var tenure = document.getElementById('tenure').value;
+var monthlyCharges = document.getElementById('MonthlyCharges').value;
+var totalCharges = document.getElementById('TotalCharges').value;
+
+// Validate numeric inputs
+if (tenure < 0) {
+    event.preventDefault();
+    alert('Tenure must be a positive integer.');
+    return;
+}
+
+if (monthlyCharges < 0) {
+    event.preventDefault();
+    alert('Monthly Charges must be a positive amount.');
+    return;
+}
+
+if (totalCharges < 0) {
+    event.preventDefault();
+    alert('Total Charges must be a positive amount.');
+    return;
+}
+});
+</script>
